@@ -58,7 +58,7 @@ This repository is based on [Open3D](https://github.com/intel-isl/Open3D).
 
 ## Installation
 
-This library is packaged under 64 Bit Ubuntu Linux 20.04 and CUDA 11.2.
+This library is packaged under 64 Bit Ubuntu Linux 20.04 and CUDA 11.7.
 You can install cupoch using pip.
 
 ```
@@ -85,15 +85,8 @@ pip3 install cupoch
 ```
 
 Or you can compile it from source.
-Update your version of cmake if necessary.
 
 ```
-wget https://github.com/Kitware/CMake/releases/download/v3.16.3/cmake-3.16.3.tar.gz
-tar zxvf cmake-3.16.3.tar.gz
-cd cmake-3.16.3
-./bootstrap -- -DCMAKE_USE_OPENSSL=OFF
-make && sudo make install
-cd ..
 git clone https://github.com/neka-nat/cupoch.git --recurse
 cd cupoch/
 mkdir build
