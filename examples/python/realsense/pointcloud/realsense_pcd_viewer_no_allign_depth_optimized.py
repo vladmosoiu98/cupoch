@@ -21,7 +21,8 @@ class Preset(IntEnum):
 
 def get_intrinsic_matrix(frame):
     intrinsics = frame.profile.as_video_stream_profile().intrinsics
-    out = cph.camera.PinholeCameraIntrinsic(424, 240, intrinsics.fx, intrinsics.fy, intrinsics.ppx, intrinsics.ppy)
+    out = cph.camera.PinholeCameraIntrinsic(
+        424, 240, intrinsics.fx, intrinsics.fy, intrinsics.ppx, intrinsics.ppy)
     return out
 
 
@@ -48,17 +49,18 @@ if __name__ == "__main__":
 
     pcd = cph.geometry.PointCloud()
     flip_transform = [[1, 0, 0, 0], [0, -1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]]
-    
+
     frames = pipeline.wait_for_frames()
     depth_frame = frames.get_depth_frame()
-    intrinsic = cph.camera.PinholeCameraIntrinsic(get_intrinsic_matrix(depth_frame))
+    intrinsic = cph.camera.PinholeCameraIntrinsic(
+        get_intrinsic_matrix(depth_frame))
 
     # Streaming loop
     frame_count = 0
     try:
         while True:
 
-            #dt0 = datetime.now()
+            # dt0 = datetime.now()
 
             # Get frameset of color and depth
             frames = pipeline.wait_for_frames()
@@ -68,18 +70,18 @@ if __name__ == "__main__":
             if not depth_frame:
                 continue
 
-            #dt1 = datetime.now()
+            # dt1 = datetime.now()
             depth_image = cph.geometry.Image(np.array(depth_frame.get_data()))
 
-            #dt2 = datetime.now()
-            temp = cph.geometry.PointCloud.create_from_depth_image(depth_image, intrinsic)
-            
+            # dt2 = datetime.now()
+            temp = cph.geometry.PointCloud.create_from_depth_image(
+                depth_image, intrinsic)
+
             # Apply transformation matrix
             temp.transform(flip_transform)
             pcd.points = temp.points
 
-
-            #dt3 = datetime.now()
+            # dt3 = datetime.now()
             if frame_count == 0:
                 vis.add_geometry(pcd)
 
@@ -87,9 +89,9 @@ if __name__ == "__main__":
             vis.poll_events()
             vis.update_renderer()
 
-            #dt4 = datetime.now()
-            #process_time = dt4 - dt0
-            #print("FPS: " + str(1 / process_time.total_seconds()))
+            # dt4 = datetime.now()
+            # process_time = dt4 - dt0
+            # print("FPS: " + str(1 / process_time.total_seconds()))
             '''print(
                 "1. Get frame:",
                 (dt1 - dt0).total_seconds(),
